@@ -232,7 +232,7 @@ function DrawingLib.new(drawingType)
                     --uiStroke.Enabled = value
                     textStroke.Enabled = value;
                 elseif index == "OutlineColor" then
-                    textStroke.Color = Value;
+                    textStroke.Color = value;
                 elseif index == "Visible" then
                     textLabel.Visible = value
                 elseif index == "ZIndex" then
