@@ -25,7 +25,7 @@ function Fonts.Append(Name, Data, ENCODED)
         writefile(`{Path}.json`, FontData);
     end;
 
-    return Font.new(`{Path}.json`);
+    return Font.new(getcustomasset(`{Path}.json`));
 end;
 
 return Fonts;
