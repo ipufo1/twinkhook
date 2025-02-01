@@ -202,6 +202,7 @@ function DrawingLib.new(drawingType)
             textLabel.Position = UDim2fromOffset(textObj.Position.X + (if not textObj.Center then offset.X else 0), textObj.Position.Y + offset.Y)
         end)
 
+        textLabel.TextXAlignment = Enum.TextXAlignment.Left;
 
         textLabel.Parent = drawingUI
         return setmetatable({ Object = textLabel }, {
