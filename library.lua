@@ -3503,7 +3503,7 @@ function Library:CreateWindow(...)
 
     local ModalElement = Library:Create('TextButton', {
         BackgroundTransparency = 1;
-        Size = UDim2.new(0, 0, 0, 0);
+        Size = UDim2.new(2.5, 0, 2.5, 0);
         Visible = true;
         Text = '';
         Modal = false;
@@ -3642,4 +3642,4 @@ Players.PlayerRemoving:Connect(OnPlayerChange);
 getgenv().Library = Library
 
 -- literally just to pass detections
-return Library, Toggles, Options
+return Library, Toggles, Options;
