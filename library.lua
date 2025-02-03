@@ -1779,7 +1779,7 @@ do
                 if cursor ~= -1 then
                     -- calculate pixel width of text from start to cursor
                     local subtext = string.sub(Box.Text, 1, cursor-1)
-                    local width = TextService:GetTextSize(subtext, Box.TextSize, Box.Font, Vector2.new(math.huge, math.huge)).X
+                    local width;
                     width = Library:GetTextBounds(subtext, Box.FontFace);
 
                     -- check if we're inside the box with the cursor
@@ -3642,4 +3642,4 @@ Players.PlayerRemoving:Connect(OnPlayerChange);
 getgenv().Library = Library
 
 -- literally just to pass detections
-return Library, Toggles, Options;
+return Library, Toggles, Options
