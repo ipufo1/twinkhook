@@ -3503,7 +3503,7 @@ function Library:CreateWindow(...)
 
     local ModalElement = Library:Create('TextButton', {
         BackgroundTransparency = 1;
-        Size = UDim2.new(2.5, 0, 2.5, 0);
+        Size = UDim2.new(0, 0, 0, 0);
         Visible = true;
         Text = '';
         Modal = false;
