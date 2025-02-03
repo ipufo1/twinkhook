@@ -1000,6 +1000,11 @@ do
         return ColorPicker, self;
     end;
 
+    local Replacements = {
+        ['Minus'] = '-';
+        ['Plus'] = '+';
+    }
+
     function Funcs:AddKeyPicker(Idx, Info)
         local ParentObj = self;
         local ToggleLabel = self.TextLabel;
@@ -1152,12 +1157,12 @@ do
 
             local State = KeyPicker:GetState();
 
-            ContainerLabel.Text = string.format('[%s] %s (%s)', KeyPicker.Value, Info.Text, KeyPicker.Mode);
+            ContainerLabel.Text = string.format('[ %s ] %s', Replacements[KeyPicker.Value] or KeyPicker.Value, Info.Text, KeyPicker.Mode);
 
-            ContainerLabel.Visible = self:GetState();
-            ContainerLabel.TextColor3 = State and Library.AccentColor or Library.FontColor;
+            ContainerLabel.Visible = State;
+            ContainerLabel.TextColor3 = Library.FontColor;
 
-            Library.RegistryMap[ContainerLabel].Properties.TextColor3 = State and 'AccentColor' or 'FontColor';
+            Library.RegistryMap[ContainerLabel].Properties.TextColor3 = 'FontColor';
 
             local YSize = 0
             local XSize = 0
@@ -3642,4 +3647,4 @@ Players.PlayerRemoving:Connect(OnPlayerChange);
 getgenv().Library = Library
 
 -- literally just to pass detections
-return Library, Toggles, Options
+return Library, Toggles, Options;
