@@ -313,7 +313,7 @@ end;
 function Library:GetDarkerColor(Color)
     local H, S, V = Color3.toHSV(Color);
     return Color3.fromHSV(H, S, V / 1.5);
-end; 
+end;
 Library.AccentColorDark = Library:GetDarkerColor(Library.AccentColor);
 
 function Library:AddToRegistry(Instance, Properties, IsHud)
@@ -1780,6 +1780,7 @@ do
                     -- calculate pixel width of text from start to cursor
                     local subtext = string.sub(Box.Text, 1, cursor-1)
                     local width = TextService:GetTextSize(subtext, Box.TextSize, Box.Font, Vector2.new(math.huge, math.huge)).X
+                    width = Library:GetTextBounds(subtext, Box.FontFace);
 
                     -- check if we're inside the box with the cursor
                     local currentCursorPos = Box.Position.X.Offset + width
@@ -3641,4 +3642,4 @@ Players.PlayerRemoving:Connect(OnPlayerChange);
 getgenv().Library = Library
 
 -- literally just to pass detections
-return Library, Toggles, Options
+return Library, Toggles, Options;
