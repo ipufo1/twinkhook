@@ -1157,7 +1157,7 @@ do
 
             local State = KeyPicker:GetState();
 
-            ContainerLabel.Text = string.format('[ %s ] %s', Replacements[KeyPicker.Value] or KeyPicker.Value, Info.Text, KeyPicker.Mode);
+            ContainerLabel.Text = string.format('[ %s ] %s ( %s )', Replacements[KeyPicker.Value] or KeyPicker.Value, Info.Text, KeyPicker.Mode);
 
             ContainerLabel.Visible = State;
             ContainerLabel.TextColor3 = Library.FontColor;
@@ -1176,7 +1176,10 @@ do
                 end;
             end;
 
-            Library.KeybindFrame.Size = UDim2.new(0, math.max(XSize + 10, 210), 0, YSize + 23)
+            -- Library.KeybindFrame.Size = UDim2.new(0, XSize + 10, 0, YSize + 23)
+            local KeybindFrame = Library.KeybindFrame:: Frame;
+
+            KeybindFrame:TweenSize(UDim2.new(0, XSize + 10, 0, YSize + 23), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, .4, true);
         end;
 
         function KeyPicker:GetState()
@@ -2767,8 +2770,6 @@ do
     Library.WatermarkText = WatermarkLabel;
     Library:MakeDraggable(Library.Watermark);
 
-
-
     local KeybindOuter = Library:Create('Frame', {
         AnchorPoint = Vector2.new(0, 0.5);
         BorderColor3 = Color3.new(0, 0, 0);
@@ -2777,6 +2778,7 @@ do
         Visible = false;
         ZIndex = 100;
         Parent = ScreenGui;
+        ClipsDescendants = true;
     });
 
     local KeybindInner = Library:Create('Frame', {
@@ -3647,4 +3649,4 @@ Players.PlayerRemoving:Connect(OnPlayerChange);
 getgenv().Library = Library
 
 -- literally just to pass detections
-return Library, Toggles, Options;
+return Library, Toggles, Options
