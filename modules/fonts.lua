@@ -12,6 +12,9 @@ function Fonts.Append(Name, Data, ENCODED)
 
     if not isfile(`{Path}.ttf`) then
         writefile(`{Path}.ttf`, (ENCODED and base64.decode(Data) or Data));
+    end;
+
+    if not isfile(`{Path}.json`) then
         local FontData = HttpService:JSONEncode({
             ['name'] = Name;
             ['faces'] = {{
