@@ -155,17 +155,16 @@ function Pathfinding.findPath( Start, End, NodeStep, Radius )
 
                 do
                     if IsClosedNode( ClosedList, ChildPosition ) then
-                        print('this is closed wtf')
                         continue
                     end;
 
                     if DoesExist( OpenList, ChildPosition ) then
-                        ClosedList[ # ClosedList+1] = ChildNode;
+                        ClosedList[ # ClosedList+1 ] = ChildNode;
                         continue
                     end;
 
                     if not GapCheck( ChildPosition, Radius ) then
-                        ClosedList[ # ClosedList+1] = ChildNode;
+                        ClosedList[ # ClosedList+1 ] = ChildNode;
                         continue
                     end;
                 end;
