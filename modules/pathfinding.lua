@@ -30,13 +30,9 @@ Pathfinding.Cardinals = {
     Vector3.new(0, -1, -1);
 }
 
-
-Pathfinding.Timeout = 123123;
+Pathfinding.Timeout = 10;
 Pathfinding.NodeStep = 5;
 Pathfinding.Ignore = {};
-
-local Balls = Instance.new('Folder',workspace);
-table.insert(Pathfinding.Ignore, Balls);
 
 local function GridSnap( Position, NodeStep )
     local X = round( Position.X / NodeStep ) * NodeStep;
@@ -104,8 +100,7 @@ local function Heuristic( a, b )
 end;
 
 local RenderStepped = game:GetService('RunService').PreRender;
-
-function Pathfinding.findPath( Start, End, NodeStep, ThreadAmount )
+function Pathfinding.findPath( Start, End, NodeStep )
     local ClosedList = {} -- nodes we cant goto
     local OpenList = {} -- nodes we can search
 
@@ -178,18 +173,6 @@ function Pathfinding.findPath( Start, End, NodeStep, ThreadAmount )
         end;
 
         CurrentNode.Scanned = true;
-
-        do -- visualize the node scanned
-            local Stupid = Instance.new('Part', Balls);
-
-            Stupid.Anchored = true;
-            Stupid.CanCollide = false;
-            Stupid.Size = Vector3.one / 2;
-            Stupid.Material = Enum.Material.ForceField;
-            Stupid.Position = NodePosition;
-            Stupid.Color = Color3.new(1, 1, 0);
-            Stupid.Shape = Enum.PartType.Ball;
-        end;
 
         RenderStepped:Wait();
     end;
