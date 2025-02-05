@@ -30,9 +30,13 @@ Pathfinding.Cardinals = {
     Vector3.new(0, -1, -1);
 }
 
-Pathfinding.Timeout = 10;
+
+Pathfinding.Timeout = 123123;
 Pathfinding.NodeStep = 5;
 Pathfinding.Ignore = {};
+
+local Balls = Instance.new('Folder',workspace);
+table.insert(Pathfinding.Ignore, Balls);
 
 local function GridSnap( Position, NodeStep )
     local X = round( Position.X / NodeStep ) * NodeStep;
@@ -62,6 +66,13 @@ local function IsWalkable( Start, End )
     Parameters.FilterDescendantsInstances = Pathfinding.Ignore;
 
     return workspace:Raycast( Start, ( End - Start ), Parameters ) == nil;
+end;
+
+local function GapCheck( Start, Radius )
+    local Parameters = OverlapParams.new();
+    Parameters.FilterDescendantsInstances = Pathfinding.Ignore;
+
+    return #workspace:GetPartBoundsInRadius( Start, Radius, Parameters ) <= 0
 end;
 
 local function IsClosedNode( Closed, Position )
@@ -100,7 +111,8 @@ local function Heuristic( a, b )
 end;
 
 local RenderStepped = game:GetService('RunService').PreRender;
-function Pathfinding.findPath( Start, End, NodeStep )
+
+function Pathfinding.findPath( Start, End, NodeStep, Radius )
     local ClosedList = {} -- nodes we cant goto
     local OpenList = {} -- nodes we can search
 
@@ -123,7 +135,7 @@ function Pathfinding.findPath( Start, End, NodeStep )
 
         local NodePosition = CurrentNode.Position;
 
-        if Heuristic(NodePosition, EndNode.Position) < (Pathfinding.NodeStep + 1) then
+        if Heuristic(NodePosition, EndNode.Position) < ( Pathfinding.NodeStep * 2 ) then
             local Path = {};
 
             local Node = CurrentNode;
@@ -141,8 +153,22 @@ function Pathfinding.findPath( Start, End, NodeStep )
                 local ChildPosition = NodePosition + ( Cardinal * NodeStep );
                 local ChildNode = NewNode( ChildPosition, CurrentNode, NodeStep );
 
-                if IsClosedNode( ClosedList, ChildPosition ) then continue end;
-                if DoesExist( OpenList, ChildPosition ) then continue end;
+                do
+                    if IsClosedNode( ClosedList, ChildPosition ) then
+                        print('this is closed wtf')
+                        continue
+                    end;
+
+                    if DoesExist( OpenList, ChildPosition ) then
+                        ClosedList[ # ClosedList+1] = ChildNode;
+                        continue
+                    end;
+
+                    if not GapCheck( ChildPosition, Radius ) then
+                        ClosedList[ # ClosedList+1] = ChildNode;
+                        continue
+                    end;
+                end;
 
                 if IsWalkable( NodePosition, ChildPosition ) then
                     Children[ len(Children) + 1 ] = ChildNode;
@@ -174,8 +200,56 @@ function Pathfinding.findPath( Start, End, NodeStep )
 
         CurrentNode.Scanned = true;
 
+        --[[
+        do -- visualize the node scanned
+            local Stupid = Instance.new('Part', Balls);
+
+            Stupid.Anchored = true;
+            Stupid.CanCollide = false;
+            Stupid.Size = Vector3.one / 2;
+            Stupid.Material = Enum.Material.ForceField;
+            Stupid.Position = NodePosition;
+            Stupid.Color = Color3.new(1, 1, 0);
+            Stupid.Shape = Enum.PartType.Ball;
+        end;
+        ]]
+
         RenderStepped:Wait();
     end;
 end;
 
-return Pathfinding;
+do
+    return Pathfinding;
+end;
+
+-- lazily made
+local character = game.Players.LocalPlayer.Character;
+game.Players.LocalPlayer:GetMouse().Button1Down:Connect(function()
+    local start = character.HumanoidRootPart.Position;
+
+    table.insert(Pathfinding.Ignore, character);
+
+    local function VisualizePath(Path)
+        for Index, Position in next, ( Path ) do
+            local Stupid = Instance.new('Part', Balls);
+
+            Stupid.Anchored = true;
+            Stupid.CanCollide = false;
+            Stupid.Size = Vector3.one;
+            Stupid.Material = Enum.Material.Neon;
+            Stupid.Position = Position;
+            Stupid.Color = Color3.new(1):Lerp(Color3.new(0, 1),Index / #Path);
+            Stupid.Shape = Enum.PartType.Ball
+            task.wait(1/50);
+        end;
+    end;
+
+    local path = Pathfinding.findPath(start, game.Players.LocalPlayer:GetMouse().Hit.Position + Vector3.new(0,0,0), 1, 1);
+
+    if path then
+        VisualizePath(path);
+        print('path created!');
+    else
+        print('fail')
+    end
+end)
