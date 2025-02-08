@@ -63,7 +63,7 @@ local baseDrawingObj = setmetatable({
 local Fonts = loadstring(twinkhook.http_get('modules/fonts.lua?raw=true'))();
 
 local drawingFontsEnum = {
-    [0] = Fonts.Append('tahoma-xp', twinkhook.http_get('fonts/Tahoma%20XP.txt?raw=true')),
+    [0] = Fonts.Append('tahoma-xp', twinkhook.http_get('fonts/TahomaXP.txt?raw=true')),
     [1] = Fonts.Append('proggy-c', twinkhook.http_get('fonts/ProggyClean.txt?raw=true')),
     [2] = Fonts.Append('proggy-t', twinkhook.http_get('fonts/ProggyTiny.txt?raw=true')),
     [3] = Fonts.Append('pixel-7', twinkhook.http_get('fonts/Pixel.txt?raw=true')),
