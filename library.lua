@@ -1000,11 +1000,6 @@ do
         return ColorPicker, self;
     end;
 
-    local Replacements = {
-        ['Minus'] = '-';
-        ['Plus'] = '+';
-    }
-
     function Funcs:AddKeyPicker(Idx, Info)
         local ParentObj = self;
         local ToggleLabel = self.TextLabel;
@@ -1157,7 +1152,7 @@ do
 
             local State = KeyPicker:GetState();
 
-            ContainerLabel.Text = string.format('[ %s ] %s ( %s )', Replacements[KeyPicker.Value] or KeyPicker.Value, Info.Text, KeyPicker.Mode);
+            ContainerLabel.Text = string.format('[ %s ] %s : %s', KeyPicker.Value:sub(1, 5):upper(), Info.Text, KeyPicker.Mode);
 
             ContainerLabel.Visible = State;
             ContainerLabel.TextColor3 = Library.FontColor;
