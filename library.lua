@@ -1152,7 +1152,7 @@ do
 
             local State = KeyPicker:GetState();
 
-            ContainerLabel.Text = string.format('[ %s ] %s:%s', KeyPicker.Value:sub(1, 5):upper(), Info.Text, KeyPicker.Mode:lower());
+            ContainerLabel.Text = string.format('[%s] %s:%s', KeyPicker.Value:sub(1, 5):upper(), Info.Text, KeyPicker.Mode:lower());
 
             ContainerLabel.Visible = State;
             ContainerLabel.TextColor3 = Library.FontColor;
@@ -1174,10 +1174,14 @@ do
             -- Library.KeybindFrame.Size = UDim2.new(0, XSize + 10, 0, YSize + 23)
             local KeybindFrame = Library.KeybindFrame:: Frame;
 
-            KeybindFrame:TweenSize(UDim2.new(0, math.clamp(XSize, 56, math.huge) + 10, 0, YSize + 23), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, .4, true);
+            KeybindFrame:TweenSize(UDim2.new(0, math.clamp(XSize, 56, math.huge) + 12, 0, YSize + 23), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.0, true);
         end;
 
         function KeyPicker:GetState()
+            if InputService:GetFocusedTextBox() then
+                return false;
+            end;
+
             if KeyPicker.Mode == 'Always' then
                 return true;
             elseif KeyPicker.Mode == 'Hold' then
