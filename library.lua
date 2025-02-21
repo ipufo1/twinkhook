@@ -25,6 +25,8 @@ getgenv().Toggles = Toggles;
 getgenv().Options = Options;
 
 local Library = {
+    Toggled = false;
+
     Registry = {};
     RegistryMap = {};
 
@@ -2962,6 +2964,8 @@ function Library:CreateWindow(...)
     if typeof(Config.Position) ~= 'UDim2' then Config.Position = UDim2.fromOffset(175, 50) end
     if typeof(Config.Size) ~= 'UDim2' then Config.Size = UDim2.fromOffset(550, 600) end
 
+    Library.Toggled = Config.AutoShow;
+
     if Config.Center then
         Config.AnchorPoint = Vector2.new(0.5, 0.5)
         Config.Position = UDim2.fromScale(0.5, 0.5)
@@ -3528,6 +3532,7 @@ function Library:CreateWindow(...)
         local FadeTime = Config.MenuFadeTime;
         Fading = true;
         Toggled = (not Toggled);
+        Library.Toggled = Toggled;
         ModalElement.Modal = Toggled;
 
         if Toggled then
