@@ -37,7 +37,7 @@ local Library = {
     BackgroundColor = Color3.fromRGB(20, 20, 20);
     AccentColor = Color3.fromRGB(0, 85, 255);
     OutlineColor = Color3.fromRGB(50, 50, 50);
-    RiskColor = Color3.fromRGB(255, 50, 50),
+    RiskColor = Color3.fromRGB(255, 166, 50),
 
     Black = Color3.new(0, 0, 0);
     Font = Enum.Font.Code,
@@ -1158,6 +1158,7 @@ do
 
             ContainerLabel.Visible = State;
             ContainerLabel.TextColor3 = Library.FontColor;
+            ContainerLabel.TextXAlignment = Enum.TextXAlignment.Center;
 
             Library.RegistryMap[ContainerLabel].Properties.TextColor3 = 'FontColor';
 
@@ -1169,14 +1170,16 @@ do
                     YSize = YSize + 18;
                     if (Label.TextBounds.X > XSize) then
                         XSize = Label.TextBounds.X
-                    end
+                    end;
+
+                    Label.LayoutOrder = 100 - #Label.Text
                 end;
             end;
 
             -- Library.KeybindFrame.Size = UDim2.new(0, XSize + 10, 0, YSize + 23)
             local KeybindFrame = Library.KeybindFrame:: Frame;
 
-            KeybindFrame:TweenSize(UDim2.new(0, math.clamp(XSize, 56, math.huge) + 12, 0, YSize + 23), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.0, true);
+            KeybindFrame:TweenSize(UDim2.new(0, math.max(XSize, 56) + 12, 0, YSize + 23), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.0, true);
         end;
 
         function KeyPicker:GetState()
@@ -2811,9 +2814,9 @@ do
     local KeybindLabel = Library:CreateLabel({
         Size = UDim2.new(1, 0, 0, 20);
         Position = UDim2.fromOffset(5, 2),
-        TextXAlignment = Enum.TextXAlignment.Left,
+        TextXAlignment = Enum.TextXAlignment.Center,
 
-        Text = 'Keybinds';
+        Text = 'keybinds';
         ZIndex = 104;
         Parent = KeybindInner;
     });
