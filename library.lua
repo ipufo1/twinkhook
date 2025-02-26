@@ -1167,9 +1167,13 @@ do
 
             for _, Label in next, Library.KeybindContainer:GetChildren() do
                 if Label:IsA('TextLabel') and Label.Visible then
-                    YSize = YSize + 18;
-                    if (Label.TextBounds.X > XSize) then
-                        XSize = Label.TextBounds.X
+                    local X, Y = Library:GetTextBounds(Label.Text, Library.Font, 12);
+                    X = X + 2;
+
+                    YSize += 19;
+
+                    if (X > XSize) then
+                        XSize = X;
                     end;
 
                     Label.LayoutOrder = 100 - #Label.Text
@@ -1179,7 +1183,7 @@ do
             -- Library.KeybindFrame.Size = UDim2.new(0, XSize + 10, 0, YSize + 23)
             local KeybindFrame = Library.KeybindFrame:: Frame;
 
-            KeybindFrame:TweenSize(UDim2.new(0, math.max(XSize, 56) + 12, 0, YSize + 23), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.0, true);
+            KeybindFrame:TweenSize(UDim2.new(0, math.max(XSize, 56) + 12, 0, YSize + 30), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.0, true);
         end;
 
         function KeyPicker:GetState()
@@ -2280,7 +2284,7 @@ do
             Library:AddToolTip(Info.Tooltip, DropdownOuter)
         end
 
-        local MAX_DROPDOWN_ITEMS = 8;
+        local MAX_DROPDOWN_ITEMS = 20;
 
         local ListOuter = Library:Create('Frame', {
             BackgroundColor3 = Color3.new(0, 0, 0);
@@ -2782,7 +2786,7 @@ do
         Visible = false;
         ZIndex = 100;
         Parent = ScreenGui;
-        ClipsDescendants = true;
+        ClipsDescendants = false;
     });
 
     local KeybindInner = Library:Create('Frame', {
@@ -2801,10 +2805,13 @@ do
 
     local ColorFrame = Library:Create('Frame', {
         BackgroundColor3 = Library.AccentColor;
-        BorderSizePixel = 0;
-        Size = UDim2.new(1, 0, 0, 2);
+        BorderColor3 = Color3.fromRGB(15, 15, 15);
+        BorderSizePixel = 1;
+        Size = UDim2.new(0.95, 0, 0, 2);
+        Position = UDim2.new(0.5, 0, 0, 20);
         ZIndex = 102;
         Parent = KeybindInner;
+        AnchorPoint = Vector2.new(0.5, 0);
     });
 
     Library:AddToRegistry(ColorFrame, {
@@ -2812,8 +2819,8 @@ do
     }, true);
 
     local KeybindLabel = Library:CreateLabel({
-        Size = UDim2.new(1, 0, 0, 20);
-        Position = UDim2.fromOffset(5, 2),
+        Size = UDim2.new(1, 0, 0, 14);
+        Position = UDim2.fromOffset(5, 4),
         TextXAlignment = Enum.TextXAlignment.Center,
 
         Text = 'keybinds';
@@ -2822,23 +2829,33 @@ do
     });
 
     local KeybindContainer = Library:Create('Frame', {
-        BackgroundTransparency = 1;
-        Size = UDim2.new(1, 0, 1, -20);
-        Position = UDim2.new(0, 0, 0, 20);
-        ZIndex = 1;
+        BackgroundColor3 = Library.MainColor;
+        BorderColor3 = Library.OutlineColor;
+        BorderMode = Enum.BorderMode.Inset;
+        BackgroundTransparency = 0;
+        Size = UDim2.new(0.95, 0, 0.95, -25);
+        Position = UDim2.new(0.5, 0, 0, 25);
+        ZIndex = 105;
         Parent = KeybindInner;
+        AnchorPoint = Vector2.new(0.5, 0);
     });
+
+    local Balls = Library:Create('UIStroke', {
+        Parent = KeybindContainer;
+        Color = Color3.new();
+        LineJoinMode = Enum.LineJoinMode.Miter
+    })
+
+    Library:AddToRegistry(KeybindContainer, {
+        BackgroundColor3 = 'MainColor';
+        BorderColor3 = 'OutlineColor';
+    }, true);
 
     Library:Create('UIListLayout', {
         FillDirection = Enum.FillDirection.Vertical;
         SortOrder = Enum.SortOrder.LayoutOrder;
         Parent = KeybindContainer;
     });
-
-    Library:Create('UIPadding', {
-        PaddingLeft = UDim.new(0, 5),
-        Parent = KeybindContainer,
-    })
 
     Library.KeybindFrame = KeybindOuter;
     Library.KeybindContainer = KeybindContainer;
