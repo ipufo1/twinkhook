@@ -1158,7 +1158,6 @@ do
 
             ContainerLabel.Visible = State;
             ContainerLabel.TextColor3 = Library.FontColor;
-            ContainerLabel.TextXAlignment = Enum.TextXAlignment.Center;
 
             Library.RegistryMap[ContainerLabel].Properties.TextColor3 = 'FontColor';
 
@@ -1176,7 +1175,7 @@ do
                         XSize = X;
                     end;
 
-                    Label.LayoutOrder = 100 - #Label.Text
+                    --Label.LayoutOrder = 100 - #Label.Text
                 end;
             end;
 
@@ -2833,7 +2832,7 @@ do
         BorderColor3 = Library.OutlineColor;
         BorderMode = Enum.BorderMode.Inset;
         BackgroundTransparency = 0;
-        Size = UDim2.new(0.95, 0, 0.95, -25);
+        Size = UDim2.new(0.95, 0, 1, -30);
         Position = UDim2.new(0.5, 0, 0, 25);
         ZIndex = 105;
         Parent = KeybindInner;
@@ -3672,5 +3671,5 @@ Players.PlayerRemoving:Connect(OnPlayerChange);
 
 getgenv().Library = Library
 
--- literally just to pass detections
+-- literally just to pass detections -- this was A LIE!
 return Library, Toggles, Options
