@@ -2045,6 +2045,14 @@ do
             BorderColor3 = 'AccentColorDark';
         });
 
+        local Subtract = Library:CreateLabel({
+            Text = '-';
+            AnchorPoint = Vector2.new(0, 0.5);
+            Position = UDim2.new(0, -5, 0.5, 0);
+            Size = UDim2.new(0, 12, 0, 12);
+            Parent = SliderInner;
+        });
+
         local HideBorderRight = Library:Create('Frame', {
             BackgroundColor3 = Library.AccentColor;
             BorderSizePixel = 0;
@@ -2726,7 +2734,7 @@ do
 
     local WatermarkInner = Library:Create('Frame', {
         BackgroundColor3 = Library.MainColor;
-        BorderColor3 = Library.AccentColor;
+        BorderColor3 = Library.OutlineColor;
         BorderMode = Enum.BorderMode.Inset;
         Size = UDim2.new(1, 0, 1, 0);
         ZIndex = 201;
@@ -2734,7 +2742,22 @@ do
     });
 
     Library:AddToRegistry(WatermarkInner, {
-        BorderColor3 = 'AccentColor';
+        BorderColor3 = 'OutlineColor';
+    });
+
+    local WatermarkColorFrame = Library:Create('Frame', {
+        Parent = WatermarkInner;
+        BackgroundColor3 = Library.AccentColor;
+        BorderColor3 = Color3.fromRGB(15, 15, 15);
+        BorderSizePixel = 1;
+        Size = UDim2.new(1, 2, 0, 1);
+        Position = UDim2.new(0.5, 0, 0, 0);
+        ZIndex = 203;
+        AnchorPoint = Vector2.new(0.5, 0);
+    });
+
+    Library:AddToRegistry(WatermarkColorFrame, {
+        BackgroundColor3 = 'AccentColor';
     });
 
     local InnerFrame = Library:Create('Frame', {
@@ -2765,7 +2788,7 @@ do
     });
 
     local WatermarkLabel = Library:CreateLabel({
-        Position = UDim2.new(0, 5, 0, 0);
+        Position = UDim2.new(0, 5, 0, 1);
         Size = UDim2.new(1, -4, 1, 0);
         TextSize = 14;
         TextXAlignment = Enum.TextXAlignment.Left;
@@ -3671,5 +3694,5 @@ Players.PlayerRemoving:Connect(OnPlayerChange);
 
 getgenv().Library = Library
 
--- literally just to pass detections -- this was A LIE!
+-- literally just to pass detections
 return Library, Toggles, Options
