@@ -9,14 +9,9 @@ if not twinkhook then
         game.Loaded:Wait()
     end
 
-    function twinkhook.http_get(path)
-        local result = request({
-            Url = `https://github.com/ipufo1/twinkhook/blob/main/{path}`;
-            Method = 'GET';
-        }).Body;
-
-        return result;
-    end;
+function twinkhook.http_get(path)
+    return game:HttpGet('https://github.com/ipufo1/twinkhook/blob/main/'..path);
+end;
 end
 
 -- services
