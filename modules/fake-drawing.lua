@@ -1,6 +1,3 @@
--- https://github.com/OxygenClub/Random-LUAS/blob/main/drawing-i-keep-updating-this.lua
--- Made by jLn0n
-
 if not twinkhook then
     local twinkhook = {
         loaded = false;
